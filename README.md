@@ -4,10 +4,12 @@
 
 * nestjs (Swagger/Typeorm/HttpModule)
 * Mysql 8.0 ,Mysql Workbench
+* 번역(NAVER PAPAGO API)
+* 환율 정보 조회 (한국수출입 은행 API) (https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C&searchselect=&searchword=)
 
 # API 정보
 
-**과제설명 파일에 안내 된 번역 API 링크가 접근이 안되서 네이버 신규 앱 등록 후 키 발급하여 파파고 API 개발 진행 하였습니다.**
+**과제설명 파일에 안내 된 번역 API 링크가 접근이 안되서 네이버 신규 앱 등록 후 새로 키 발급하여 파파고 API 개발 진행 하였습니다.**
 
 * API 정보/Url:(http://localhost:3000/api) 
   * [상품 전체 조회 - 등록 된 상품을 전체 조회 합니다. ] 
