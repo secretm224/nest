@@ -7,6 +7,18 @@
 * 번역(NAVER PAPAGO API)
 * 환율 정보 조회 (한국수출입 은행 API) (https://www.koreaexim.go.kr/ir/HPHKIR020M01?apino=2&viewtype=C&searchselect=&searchword=)
 
+**app.module.ts db 설정 정보 수정 필요**
+
+` 
+  TypeOrmModule.forRoot({
+                    type: 'mysql',
+                    host: '127.0.0.1',
+                    port: 3306,
+                    username: 'goods',
+                    password: '',
+                    database: 'goods_db',
+`
+
 # API 정보
 
 **과제설명 파일에 안내 된 번역 API 링크가 접근이 안되서 네이버 신규 앱 등록 후 새로 키 발급하여 파파고 API 개발 진행 하였습니다.**

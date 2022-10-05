@@ -106,6 +106,9 @@ export class GoodsService
             existGoods.chg_id = 'EditService';
             const edit =  await this.GoodsRepository.save(existGoods);
             return edit;
+         }else{
+
+           throw new NotFoundException(`Not Found Goods No: ${goods_no}`);
          }
       }
 
