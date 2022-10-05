@@ -6,8 +6,9 @@ import { Observable } from 'rxjs';
 import { CreateGoodsDto } from './dto/create-goods.dto';
 import { UpdateGoodsDto } from './dto/update-goods.dto';
 import { Goods } from './listing/goods.listing';
-import { Repository } from 'typeorm';
+import { Exclusion, Repository } from 'typeorm';
 import{ GoodsData } from './entities/goods.entity';
+import { Exception } from 'handlebars';
 
 @Injectable()
 export class GoodsService 
@@ -22,6 +23,10 @@ export class GoodsService
 
       findOne(goods_no: number): Promise<GoodsData> {
         return this.GoodsRepository.findOne({where:{goods_no}});
+      }
+
+      findGoods(): Promise<GoodsData[]> {
+        return this.GoodsRepository.find({where:{goods_stat:20}});
       }
 
       //등록
@@ -87,6 +92,12 @@ export class GoodsService
 
       async EditStat(goods_no: number, stat: number): Promise<GoodsData> 
       {
+        if(!(stat == 10 || stat == 20 || stat == 30)){
+          throw new Exception(
+            '10:대기 , 20: 완료 , 30: 보류 의 상태로만 변경해주세요',
+          );
+        }
+
          const existGoods = await this.GoodsRepository.findOne({where:{goods_no}});
          if(existGoods)
          {

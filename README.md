@@ -13,15 +13,17 @@
 
 * API 정보/Url:(http://localhost:3000/api) 
   * [상품 전체 조회 - 등록 된 상품을 전체 조회 합니다. ] 
-    (http://localhost:3000/api#/Goods/GoodsController_findAll)
+    (http://localhost:3000/api#/Goods/GoodsController_GetAllGoods)
   * [상품 조회 - 상품 번호로 상품을 조회 합니다.]
-    (http://localhost:3000/api#/Goods/GoodsController_findOne)
+    (http://localhost:3000/api#/Goods/GoodsController_GetGoods)
+  * [전시 가능상품 조회 - 상태가 검수 완료인 상품들만 조회 합니다]
+    (http://localhost:3000/api#/Goods/GoodsController_GetListingGoods)
   * [상품 수정 - 상품 번호로 원하는 상품을 수정 합니다. ] 
-    (http://localhost:3000/api#/Goods/GoodsController_update)
+    (http://localhost:3000/api#/Goods/GoodsController_EditGoods)
   * [상품 등록 - 상품 등록 Api(상품 제목 , 상품 상세의 영문/중국어는 자동으로 번역되어 등록 됩니다.] 
-    (http://localhost:3000/api#/Goods/GoodsController_create)
-  * [상품 검수 - 상품 상태 (검수요청 : 0 , 대기 : 10 , 검수 완료 : 20 , 검수 보류 : 30) 초기 등록 시 0 으로 등록]
-    (http://localhost:3000/api#/Goods/GoodsController_create)
+    (http://localhost:3000/api#/Goods/GoodsController_InsertGoods)
+  * [상품 검수 - 상품 상태 (검수요청 : 0 , 대기 : 10 , 검수 완료 : 20 , 검수 보류 : 30 이외 값 요청 시 예외 발생) 초기 등록 시 0 으로 등록]
+    (http://localhost:3000/api#/Goods/GoodsController_EditStats)
 
 ## API List 화면
 ![image](https://user-images.githubusercontent.com/40415473/193989774-de4af925-ed17-4939-ba00-d826c117ba26.png)

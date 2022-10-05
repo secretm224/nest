@@ -29,27 +29,33 @@ export class GoodsController
 
     @ApiOperation({summary:'상품 전체 조회'})
     @Get("/all")
-    findAll(): Promise<GoodsData[]> {
+    GetAllGoods(): Promise<GoodsData[]> {
         return this.GoodsService.findAll();
     }
     
     @ApiOperation({summary:'상품 조회'})
     @Get(':goods_no')
-    findOne(@Param('goods_no') goods_no: number): Promise<GoodsData>  {
+    GetGoods(@Param('goods_no') goods_no: number): Promise<GoodsData>  {
         return this.GoodsService.findOne(goods_no);
+    }
+
+    @ApiOperation({summary:'검수된 상품 조회'})
+    @Get('')
+    GetListingGoods(): Promise<GoodsData[]>  {
+        return this.GoodsService.findGoods();
     }
 
     @ApiOperation({summary:'상품 등록'})
     @ApiBody({description: "body:insert goods data", type: CreateGoodsDto })
     @Post()
-    create(@Body() GoodsData:CreateGoodsDto){
+    InsertGoods(@Body() GoodsData:CreateGoodsDto){
         return this.GoodsService.create(GoodsData);
     }
     
     @ApiOperation({summary:'상품 수정'})
     @ApiBody({description: "body:update goods data"})
     @Put(':goods_no')
-    update(@Param('goods_no')goods_no: number, @Body() goods_info){
+    EditGoods(@Param('goods_no')goods_no: number, @Body() goods_info){
         console.log('update_info'+goods_info);
          const edit_goods = this.GoodsService.update(goods_no, goods_info);
         return edit_goods;
