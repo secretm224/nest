@@ -12,15 +12,11 @@ import{ GoodsData } from './entities/goods.entity';
 @Injectable()
 export class GoodsService 
 {
-      //private GoodsList:Goods[] = [];
-      //constructor(private readonly httpService: HttpService) {}
       constructor(@InjectRepository(GoodsData)
                  private GoodsRepository: Repository<GoodsData>,
-                 //private readonly httpService: HttpService
                  ) {}
     
       findAll(): Promise<GoodsData[]> {
-        console.log('service'+this.GoodsRepository.find());
         return  this.GoodsRepository.find();
       }
 
@@ -47,11 +43,17 @@ export class GoodsService
 
          if(GoodsInfo.amt)
          {
-          const en = 1421.83;
-          const cn = 199.81;
 
-          GoodsInfo.en_amt = en * GoodsInfo.amt;
-          GoodsInfo.cn_amt = cn * GoodsInfo.amt;
+          let usd_rate = 1421.83;
+          let obj_usd = await this.ExchangeService('USD');
+          usd_rate = obj_usd.ttb.replaceAll(",","") as number;
+          
+          let chn_rate = 199.81;
+          let obj_cny =  await this.ExchangeService('CNH');
+          chn_rate = obj_cny.ttb as number;
+
+          GoodsInfo.en_amt = usd_rate * GoodsInfo.amt;
+          GoodsInfo.cn_amt = chn_rate * GoodsInfo.amt;
          }
 
         const insert = await this.GoodsRepository.save(GoodsInfo);
@@ -106,18 +108,31 @@ export class GoodsService
       {
           const Config = {
               headers: {
-              'Content-Type': 'application/json',
-              'X-Naver-Client-Id': 'HlCLyTjrnZc3MGofz8vw',
-              'X-Naver-Client-Secret': 'fdL4v6F8bJ'
+                'Content-Type': 'application/json',
+                'X-Naver-Client-Id': 'HlCLyTjrnZc3MGofz8vw',
+                'X-Naver-Client-Secret': 'fdL4v6F8bJ'
               }
           };
 
           const data = JSON.stringify({ source: 'ko',target:target_len,text:gd_nm });
           const result =  await axios.post('https://openapi.naver.com/v1/papago/n2mt', data, Config);
-
-          console.log('papago data'+result.data.message.result.translatedText);
-
           const tr_text = result.data.message.result.translatedText;
           return tr_text;
       }
+
+      async ExchangeService(currency_code:string):Promise<any>   
+      {
+        const year = new Date(Date.now()).getFullYear().toString();
+        const month = new Date(Date.now()).getMonth()+1;
+        const month_txt = month.toString();
+        const date = new Date(Date.now()).getDate().toString().padStart(2, '0');
+    
+        const api_key = 'SnC0qRLUiIgO8K1qWMpAYwUwYtNfcKJ2';
+        const param_date=`${year}${month_txt}${date}`;
+    
+        const url =`https://www.koreaexim.go.kr/site/program/financial/exchangeJSON?authkey=${api_key}&searchdate=${param_date}&data=AP01`
+        const response = await axios.get(url);
+        const Exchange_info = response.data.filter(e => e.cur_unit === currency_code);
+        return Exchange_info[0];
+     }
 }
